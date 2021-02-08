@@ -10,7 +10,7 @@ export const ContenidoPaciente = (cita) => {
         <>
         {
         visible?
-        <Link to={`/cita/${cita._id}`}key={cita._id} className="p-5 list-group-item list-group-item-action flex-colum align-item-start">
+        <Link to={`/cita/${cita._id}`}key={cita._id} className="p-5 list-group-item list-group-item-action flex-colum align-item-start animate__animated animate__fadeIn">
         <div className="d-flex w-100 justify-content-between b-4">
             <h3  className="mb-3">Mascota: {cita.nombre}</h3> 
             <small className="fecha-alta">

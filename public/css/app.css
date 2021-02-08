@@ -45,3 +45,15 @@ h3 {
 form {
     border-radius: .3rem;
 }
+
+.error{
+    border-radius: 3px;
+    border: 1px solid red;
+    color: white;
+    padding-top: 1px;
+    background-color: rgba(207, 33, 33, 0.74);
+}
+
+.error p{
+    margin-top: 5px;
+}

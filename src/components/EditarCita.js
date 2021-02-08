@@ -4,6 +4,8 @@ import clienteAxios from '../config/axios';
 import { getPacienteById } from './selectors/getPacienteById';
 
 const EditarCita = (props) => {
+    console.log('algo')
+
     const { id } = useParams();
     // const cliente = clienteAxios.get(`/pacientes/${id}`);
     // const isMounted = useRef(true);
@@ -17,6 +19,57 @@ const EditarCita = (props) => {
         telefono: '',
         propietario: ''
     });
+    const {nombre,propietario,fecha,hora,telefono,sintomas} = prom;
+
+    const [error, setError] = useState({
+        state: false,
+        msg:''
+    })
+    const formValidate = () => {
+        if(nombre.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar nombre de la mascota'
+            })
+            return false;
+        }else if (propietario.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar propietario'
+            })
+            return false
+        }else if (fecha.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar fecha'
+            })
+            return false;
+        }else if (hora.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar hora'
+            })
+            return false;
+        }else if (telefono.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar telefono'
+            })
+            return false;
+        }else if (sintomas.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar sintomas'
+            })
+            return false;
+        }else{
+            setError({
+                state:false,
+                msg: ''
+            })
+            return true;
+        }
+    }
     async function mostrar(res) {
         setProm(await res);
         return;
@@ -62,6 +115,10 @@ const EditarCita = (props) => {
     // Enviar una peticion a la Api
     const editarCita = e => {
         e.preventDefault();
+        
+        !formValidate()
+        ? console.log('error')
+        :
         clienteAxios.put(`/pacientes/${id}`, prom)
             .then(respuesta => {
                 console.log(respuesta)
@@ -80,10 +137,17 @@ const EditarCita = (props) => {
                     <div className="col-12 mb-5 d-flex justify-content-center">
                         <Link to={'/'} className=" btn btn-success text-uppercase py-2 px-5 font-weight-bold"> Volver </Link>
                     </div>
+                    {
+                        error.state
+                        &&
+                        <div className="error col-8 mx-auto mb-5 d-flex justify-content-center">
+                            <p>{error.msg}</p>
+                        </div>
+                    }
                     <div className="col-md-8 mx-auto">
                         <form
                             onSubmit={editarCita}
-                            className="bg-white p-5 bordered">
+                            className="bg-white p-5 bordered animate__animated animate__fadeIn">
                             <div className="form-group">
                                 <label htmlFor="nombre">Nombre Mascota</label>
                                 <input

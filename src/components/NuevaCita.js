@@ -4,16 +4,71 @@ import clienteAxios from '../config/axios';
 
 const NuevaCita = (props) => {
 
-    // console.log(props);
+    const [error, setError] = useState({
+        state: false,
+        msg:''
+    })
+
+    
+
 
     const [cita, guardarCita] = useState({
         nombre: '',
-        propietarop: '',
+        propietario: '',
         fecha: '',
         hora: '',
         telefono: '',
         sintomas: ''
     });
+
+    const {nombre,propietario,fecha,hora,telefono,sintomas} = cita;
+
+    const formValidate = () => {
+        if(nombre.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar nombre de la mascota'
+            })
+            return false;
+        }else if (propietario.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar propietario'
+            })
+            return false
+        }else if (fecha.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar fecha'
+            })
+            return false;
+        }else if (hora.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar hora'
+            })
+            return false;
+        }else if (telefono.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar telefono'
+            })
+            return false;
+        }else if (sintomas.trim() === ''){
+            setError({
+                state:true,
+                msg: 'Debe ingresar sintomas'
+            })
+            return false;
+        }else{
+            setError({
+                state:false,
+                msg: ''
+            })
+            return true;
+        }
+        
+    }
 
     //le los datos del form
 
@@ -28,8 +83,13 @@ const NuevaCita = (props) => {
 
     // Enviar una peticion a la Api
     const crearNuevaCita = e => {
+        
         e.preventDefault();
-        clienteAxios.post('/pacientes', cita)
+        
+        !formValidate()
+        ? console.log('error')
+        :
+       ( clienteAxios.post('/pacientes', cita)
             .then(respuesta => {
                 console.log(respuesta)
                 //estos props es enviado desde el componente padre app.js
@@ -37,23 +97,29 @@ const NuevaCita = (props) => {
                 props.guardarConsultar(true);
                 //redireccionar
                 props.history.push('/');
-            })
+            }))
     }
-
     return (
 
-        <Fragment>
+        <>
             <h1 className="my-5">Crear Nueva Cita</h1>
             <div className="container mt-5 py-5">
                 <div className="row">
                     <div className="col-12 mb-5 d-flex justify-content-center">
                         <Link to={'/'} className=" btn btn-success text-uppercase py-2 px-5 font-weight-bold"> Volver </Link>
                     </div>
-                    <div className="col-md-8 mx-auto">
+                    {
+                        error.state
+                        &&
+                        <div className="error col-8 mx-auto mb-5 d-flex justify-content-center">
+                            <p>{error.msg}</p>
+                        </div>
+                    }
+                    <div className="col-md-8 mx-auto ">
                         <form
                             onSubmit={crearNuevaCita}
-                            className="bg-white p-5 bordered">
-                            <div className="form-group">
+                            className="bg-white p-5 bordered animate__animated animate__fadeIn">
+                            <div className="form-group ">
                                 <label htmlFor="nombre">Nombre Mascota</label>
                                 <input
                                     type="text"
@@ -120,8 +186,8 @@ const NuevaCita = (props) => {
                     </div>
                 </div>
             </div>
-        </Fragment>
-    );
+        </>
+    )
 }
 
 export default withRouter(NuevaCita);

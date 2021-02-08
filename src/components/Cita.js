@@ -60,7 +60,7 @@ const Cita = (props) => {
                     <div className="col-12 mb-5 d-flex justify-content-center">
                         <Link to={'/'} className=" btn btn-success text-uppercase py-2 px-5 font-weight-bold"> Volver </Link>
                     </div>
-                    <div className="col-md-8 mx-auto">
+                    <div className="col-md-8 mx-auto animate__animated animate__fadeIn">
                         <div className="list-group">
                             <div className="p-5 list-group-item list-group-item-action flex-column align-item-center">
                                 <div className="d-flex w-100 justify-content-between b-4">
